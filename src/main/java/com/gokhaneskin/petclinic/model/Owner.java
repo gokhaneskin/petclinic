@@ -1,8 +1,13 @@
 package com.gokhaneskin.petclinic.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.HashSet;
 import java.util.Set;
 
+@XmlRootElement
 public class Owner {
 
     private Long id;
@@ -34,6 +39,8 @@ public class Owner {
         this.lastName = lastName;
     }
 
+    @XmlTransient
+    @JsonIgnore
     public Set<Pet> getPets() {
         return pets;
     }
