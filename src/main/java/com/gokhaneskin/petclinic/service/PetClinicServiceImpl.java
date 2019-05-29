@@ -1,16 +1,27 @@
 package com.gokhaneskin.petclinic.service;
 
 import com.gokhaneskin.petclinic.dao.OwnerRepository;
+import com.gokhaneskin.petclinic.dao.PetRepository;
 import com.gokhaneskin.petclinic.exception.OwnerNotFoundException;
 import com.gokhaneskin.petclinic.model.Owner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class PetClinicServiceImpl implements PetClinicService {
+
     private OwnerRepository ownerRepository;
+
+    private PetRepository petRepository;
+
+    @Autowired
+    public void setPetRepository(PetRepository petRepository) {
+        this.petRepository = petRepository;
+    }
 
     @Autowired
     public void setOwnerRepository(OwnerRepository ownerRepository) {
@@ -46,6 +57,8 @@ public class PetClinicServiceImpl implements PetClinicService {
 
     @Override
     public void deleteOwner(Long id) {
+        petRepository.deleteByOwnerId(id);
         ownerRepository.delete(id);
+//        if (true)throw new RuntimeException("testing rollback");
     }
 }
